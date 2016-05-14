@@ -43,5 +43,13 @@ RSpec.describe Termy::SystemFacts do |config|
       expect(file_systems.has_key?("sysfs")).to eq(true)
       expect(file_systems["sysfs"]["options"]).to eq(["rw", "nosuid", "nodev", "noexec", "relatime"])
     end
+
+    describe "When a file that doesn't exist is passed" do
+      it "should return an empty hash" do
+        file_systems = @sys_facts.get_file_systems(Helpers::TMP_NAME)
+        expect(file_systems.class).to eq(Hash)
+        expect(file_systems.empty?).to eq(true)
+      end
+    end
   end
 end

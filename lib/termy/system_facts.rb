@@ -21,9 +21,10 @@ class Termy::SystemFacts
 
   def get_file_systems(file)
     file_systems = {}
-    f = File.open(file) if File.file?(file)
+    return file_systems unless File.file?(file)
 
-    f.read.scan(/.*\s/).each do |line|
+    f = File.open(file)
+    f.read.scan(/.*\n/).each do |line|
       record = line.strip.split(" ")
       file_systems[record.first] = {
         "device"      =>  record[0],
@@ -34,6 +35,7 @@ class Termy::SystemFacts
         "pass_no"     =>  record[5],
       }
     end
+    f.close
     file_systems
   end
 end
