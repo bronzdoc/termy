@@ -5,6 +5,10 @@ RSpec.describe Termy::SystemFacts do |config|
     @sys_facts = Termy::SystemFacts.new
   end
 
+  after do
+    delete_tmp_file
+  end
+
   describe "#date" do
     it "should return current date" do
       class Time
@@ -23,6 +27,21 @@ RSpec.describe Termy::SystemFacts do |config|
       boot_id_file.write("0992ad15-5af9-49b8-a258-f45dea895414")
       boot_id_file.close
       expect(@sys_facts.get_boot_id("/tmp/boot_id_file")).to eq("0992ad15-5af9-49b8-a258-f45dea895414")
+    end
+  end
+
+  describe "#get_file_systems" do
+    it "should return a file systems hash" do
+      tmp_file(<<-EOF
+      rootfs / rootfs rw 0 0
+      sysfs /sys sysfs rw,nosuid,nodev,noexec,relatime 0 0
+      proc /proc proc rw,nosuid,nodev,noexec,relatime 0 0
+        EOF
+      )
+      file_systems = @sys_facts.get_file_systems(Helpers::TMP_NAME)
+      expect(file_systems.class).to eq(Hash)
+      expect(file_systems.has_key?("sysfs")).to eq(true)
+      expect(file_systems["sysfs"]["options"]).to eq(["rw", "nosuid", "nodev", "noexec", "relatime"])
     end
   end
 end
