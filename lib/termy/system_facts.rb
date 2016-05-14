@@ -1,11 +1,12 @@
 require "time"
 
 class Termy::SystemFacts
-  attr_reader :date, :boot_id
+  attr_reader :date, :boot_id, :file_systems
 
   def initialize
     @date = get_date
     @boot_id = get_boot_id("/proc/sys/kernel/random/boot_id")
+    @file_systems = get_file_systems("/etc/mtab")
   end
 
   def get_date
