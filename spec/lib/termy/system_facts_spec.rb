@@ -23,10 +23,8 @@ RSpec.describe Termy::SystemFacts do |config|
 
   describe "#boot_id" do
     it "should return the boot id" do
-      boot_id_file = File.new("/tmp/boot_id_file", "w")
-      boot_id_file.write("0992ad15-5af9-49b8-a258-f45dea895414")
-      boot_id_file.close
-      expect(@sys_facts.get_boot_id("/tmp/boot_id_file")).to eq("0992ad15-5af9-49b8-a258-f45dea895414")
+      tmp_file("0992ad15-5af9-49b8-a258-f45dea895414")
+      expect(@sys_facts.get_boot_id(Helpers::TMP_NAME)).to eq("0992ad15-5af9-49b8-a258-f45dea895414")
     end
   end
 
