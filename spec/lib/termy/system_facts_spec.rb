@@ -9,7 +9,7 @@ RSpec.describe Termy::SystemFacts do |config|
     delete_tmp_file
   end
 
-  describe "#date" do
+  describe "#get_date" do
     it "should return current date" do
       class Time
         def self.now
@@ -21,7 +21,7 @@ RSpec.describe Termy::SystemFacts do |config|
     end
   end
 
-  describe "#boot_id" do
+  describe "#get_boot_id" do
     it "should return the boot id" do
       tmp_file("0992ad15-5af9-49b8-a258-f45dea895414")
       expect(@sys_facts.get_boot_id(Helpers::TMP_NAME)).to eq("0992ad15-5af9-49b8-a258-f45dea895414")
