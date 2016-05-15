@@ -17,10 +17,16 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+# Need to require "pp" due to a fakefs bug:
+# https://github.com/fakefs/fakefs/issues/215
+# https://github.com/fakefs/fakefs/issues/99
+require "pp"
+require "fakefs/spec_helpers"
 require "helpers"
 
 RSpec.configure do |config|
-  config.include Helpers
+  config.include Termy::SpecHelpers
+  config.include FakeFS::SpecHelpers, fakefs: true
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
