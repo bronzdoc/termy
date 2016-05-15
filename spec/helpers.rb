@@ -15,5 +15,19 @@ module Termy
         f.puts "proc /proc proc rw,nosuid,nodev,noexec,relatime 0 0"
       end
     end
+
+    def stub_etc_os_release
+      FileUtils.mkdir("/etc")
+      File.open("/etc/os_release", "w") do |f|
+        f.puts 'PRETTY_NAME="Debian GNU/Linux 8 (jessie)"'
+        f.puts 'NAME="Debian GNU/Linux"'
+        f.puts 'VERSION_ID="8"'
+        f.puts 'VERSION="8 (jessie)"'
+        f.puts 'ID=debian'
+        f.puts 'HOME_URL="http://www.debian.org/"'
+        f.puts 'SUPPORT_URL="http://www.debian.org/support"'
+        f.puts 'BUG_REPORT_URL="https://bugs.debian.org/"'
+      end
+    end
   end
 end

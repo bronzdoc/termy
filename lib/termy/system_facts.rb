@@ -35,4 +35,18 @@ class Termy::SystemFacts
     f.close
     file_systems
   end
+
+  def os_release
+    file = "/etc/os_release"
+    os_release = {}
+    return os_release unless File.file?(file)
+
+    f = File.open(file)
+    f.read.scan(/.*\n/).each do |line|
+      key, val = line.split("=")
+      os_release[key.downcase] = val.strip
+    end
+    f.close
+    os_release
+  end
 end
