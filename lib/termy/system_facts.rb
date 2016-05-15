@@ -5,22 +5,23 @@ class Termy::SystemFacts
 
   def initialize
     @date = get_date
-    @boot_id = get_boot_id("/proc/sys/kernel/random/boot_id")
-    @file_systems = get_file_systems("/etc/mtab")
+    @boot_id = get_boot_id
+    @file_systems = get_file_systems
   end
 
   def get_date
     Time.now
   end
 
-  def get_boot_id(file)
-    file = File.open(file)
-    data = file.read
-    file.close
+  def get_boot_id
+    f = File.open("/proc/sys/kernel/random/boot_id")
+    data = f.read
+    f.close
     data
   end
 
-  def get_file_systems(file)
+  def get_file_systems
+    file = "/etc/matb"
     file_systems = {}
     return file_systems unless File.file?(file)
 

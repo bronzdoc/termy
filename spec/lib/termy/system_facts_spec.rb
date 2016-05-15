@@ -1,12 +1,10 @@
+
 require "termy/system_facts"
+
 
 RSpec.describe Termy::SystemFacts do |config|
   before do
     @sys_facts = Termy::SystemFacts.new
-  end
-
-  after do
-    delete_tmp_file
   end
 
   describe "#get_date" do
@@ -21,22 +19,20 @@ RSpec.describe Termy::SystemFacts do |config|
     end
   end
 
-  describe "#get_boot_id" do
-    it "should return the boot id" do
-      tmp_file("0992ad15-5af9-49b8-a258-f45dea895414")
-      expect(@sys_facts.get_boot_id(Helpers::TMP_NAME)).to eq("0992ad15-5af9-49b8-a258-f45dea895414")
+  describe "#get_boot_id", fakefs: true do
+    it "reads /etc/boot_id and returns the boot_id string  " do
+      stub_proc_sys_kernel_random_boot_id
+      expect(@sys_facts.get_boot_id).to eq("0992ad15-5af9-49b8-a258-f45dea895414")
     end
   end
 
-  describe "#get_file_systems" do
-    it "should return a file systems hash" do
-      tmp_file(<<-EOF
-      rootfs / rootfs rw 0 0
-      sysfs /sys sysfs rw,nosuid,nodev,noexec,relatime 0 0
-      proc /proc proc rw,nosuid,nodev,noexec,relatime 0 0
-        EOF
-      )
-      file_systems = @sys_facts.get_file_systems(Helpers::TMP_NAME)
+  describe "#get_file_systems", fakefs: true do
+    it "reads /etc/matb and returns the file system info hash" do
+
+      # /etc/matb stub
+      stub_etc_matb
+
+      file_systems = @sys_facts.get_file_systems
       expect(file_systems.class).to eq(Hash)
       expect(file_systems.has_key?("sysfs")).to eq(true)
       expect(file_systems["sysfs"]["options"]).to eq(["rw", "nosuid", "nodev", "noexec", "relatime"])
@@ -44,7 +40,7 @@ RSpec.describe Termy::SystemFacts do |config|
 
     describe "When a file that doesn't exist is passed" do
       it "should return an empty hash" do
-        file_systems = @sys_facts.get_file_systems(Helpers::TMP_NAME)
+        file_systems = @sys_facts.get_file_systems
         expect(file_systems.class).to eq(Hash)
         expect(file_systems.empty?).to eq(true)
       end
