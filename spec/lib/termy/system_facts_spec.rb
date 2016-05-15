@@ -35,12 +35,19 @@ RSpec.describe Termy::SystemFacts do |config|
   end
 
   describe "#os_release", fakefs: true do
-    it "reads from /etc/os_release and retursn the os info" do
+    it "reads from /etc/os_release and returns the os info" do
       stub_etc_os_release
       os_release = @sys_facts.os_release
       expect(os_release.class).to eq(Hash)
       expect(os_release.has_key?("name")).to eq(true)
       expect(os_release["name"]).to eq("\"Debian GNU/Linux\"")
+    end
+  end
+
+  describe "#machine_id", fakefs: true do
+    it "reads from /etc/machine_id and returns the id" do
+      stub_etc_machine_id
+      expect(@sys_facts.machine_id).to eq("57d8918b3961435bb09ed8bff341eb58")
     end
   end
 end

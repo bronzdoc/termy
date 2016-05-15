@@ -29,5 +29,12 @@ module Termy
         f.puts 'BUG_REPORT_URL="https://bugs.debian.org/"'
       end
     end
+
+    def stub_etc_machine_id
+      FileUtils.mkdir("/etc")
+      File.open("/etc/machine_id", "w") do |f|
+        f.puts "57d8918b3961435bb09ed8bff341eb58"
+      end
+    end
   end
 end

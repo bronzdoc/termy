@@ -49,4 +49,14 @@ class Termy::SystemFacts
     f.close
     os_release
   end
+
+  def machine_id
+    file = "/etc/machine_id"
+    return "" unless File.file?(file)
+
+    f = File.open(file)
+    machine_id = f.read.strip
+    f.close
+    machine_id
+  end
 end
