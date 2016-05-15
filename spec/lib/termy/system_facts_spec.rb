@@ -1,13 +1,11 @@
-
 require "termy/system_facts"
-
 
 RSpec.describe Termy::SystemFacts do |config|
   before do
     @sys_facts = Termy::SystemFacts.new
   end
 
-  describe "#get_date" do
+  describe "#date" do
     it "should return current date" do
       class Time
         def self.now
@@ -19,20 +17,17 @@ RSpec.describe Termy::SystemFacts do |config|
     end
   end
 
-  describe "#get_boot_id", fakefs: true do
-    it "reads /etc/boot_id and returns the boot_id string  " do
+  describe "#boot_id", fakefs: true do
+    it "reads /proc/sys/kernel/random/boot_id and returns the boot_id string" do
       stub_proc_sys_kernel_random_boot_id
-      expect(@sys_facts.get_boot_id).to eq("0992ad15-5af9-49b8-a258-f45dea895414")
+      expect(@sys_facts.boot_id).to eq("0992ad15-5af9-49b8-a258-f45dea895414")
     end
   end
 
-  describe "#get_file_systems", fakefs: true do
-    it "reads /etc/matb and returns the file system info hash" do
-
-      # /etc/matb stub
+  describe "#file_systems", fakefs: true do
+    it "reads /etc/matb and returns the file systems info as a hash" do
       stub_etc_matb
-
-      file_systems = @sys_facts.get_file_systems
+      file_systems = @sys_facts.file_systems
       expect(file_systems.class).to eq(Hash)
       expect(file_systems.has_key?("sysfs")).to eq(true)
       expect(file_systems["sysfs"]["options"]).to eq(["rw", "nosuid", "nodev", "noexec", "relatime"])
@@ -40,7 +35,7 @@ RSpec.describe Termy::SystemFacts do |config|
 
     describe "When a file that doesn't exist is passed" do
       it "should return an empty hash" do
-        file_systems = @sys_facts.get_file_systems
+        file_systems = @sys_facts.file_systems
         expect(file_systems.class).to eq(Hash)
         expect(file_systems.empty?).to eq(true)
       end
