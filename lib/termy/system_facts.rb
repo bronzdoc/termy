@@ -26,7 +26,7 @@ class Termy::SystemFacts
   end
 
   def file_systems
-    file = "/etc/matb"
+    file = "/etc/mtab"
     file_systems = {}
     return file_systems unless File.file?(file)
 

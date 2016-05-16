@@ -7,9 +7,9 @@ module Termy
       end
     end
 
-    def stub_etc_matb
+    def stub_etc_mtab
       FileUtils.mkdir("/etc")
-      File.open("/etc/matb", "w") do |f|
+      File.open("/etc/mtab", "w") do |f|
         f.puts "rootfs / rootfs rw 0 0"
         f.puts "sysfs /sys sysfs rw,nosuid,nodev,noexec,relatime 0 0"
         f.puts "proc /proc proc rw,nosuid,nodev,noexec,relatime 0 0"

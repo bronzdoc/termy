@@ -25,8 +25,8 @@ RSpec.describe Termy::SystemFacts do |config|
   end
 
   describe "#file_systems", fakefs: true do
-    it "reads /etc/matb and returns the file systems info as a hash" do
-      stub_etc_matb
+    it "reads /etc/mtab and returns the file systems info as a hash" do
+      stub_etc_mtab
       file_systems = @sys_facts.file_systems
       expect(file_systems.class).to eq(Hash)
       expect(file_systems.has_key?("sysfs")).to eq(true)
