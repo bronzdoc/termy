@@ -45,7 +45,7 @@ RSpec.describe Termy::SystemFacts do |config|
   end
 
   describe "#machine_id", fakefs: true do
-    it "reads from /etc/machine_id and returns the id" do
+    it "reads from /etc/machine-id and returns the id" do
       stub_etc_machine_id
       expect(@sys_facts.machine_id).to eq("57d8918b3961435bb09ed8bff341eb58")
     end

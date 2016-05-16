@@ -61,7 +61,7 @@ class Termy::SystemFacts
   end
 
   def machine_id
-    file = "/etc/machine_id"
+    file = "/etc/machine-id"
     return "" unless File.file?(file)
 
     f = File.open(file)
