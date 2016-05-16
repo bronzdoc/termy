@@ -20,7 +20,7 @@ class Termy::SystemFacts
 
   def boot_id
     f = File.open("/proc/sys/kernel/random/boot_id")
-    data = f.read
+    data = f.read.strip
     f.close
     data
   end

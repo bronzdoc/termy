@@ -3,7 +3,7 @@ module Termy
     def stub_proc_sys_kernel_random_boot_id
       FileUtils.mkdir_p("/proc/sys/kernel/random/")
       File.open("/proc/sys/kernel/random/boot_id", "w") do |f|
-        f.print "0992ad15-5af9-49b8-a258-f45dea895414"
+        f.puts "0992ad15-5af9-49b8-a258-f45dea895414"
       end
     end
 
