@@ -1,7 +1,17 @@
 require "time"
+require "system/getifaddrs"
 
 class Termy::SystemFacts
+  attr_reader :info
+
   def initialize
+    @info = {
+      date: date,
+      machine_id: machine_id,
+      boot_id: boot_id,
+      os_release: os_release,
+      file_systems: file_systems,
+    }
   end
 
   def date
@@ -58,5 +68,45 @@ class Termy::SystemFacts
     machine_id = f.read.strip
     f.close
     machine_id
+  end
+
+  def network
+    interfaces = {}
+    System.get_all_ifaddrs.each do |info|
+      key = info[:interface]
+      if interfaces.has_key?(key)
+        interfaces[key]["ip_addresses"] << info[:inet_addr].to_s
+        if info[:inet_addr].ipv4?
+          interfaces[key]["ipv4_adresses"] << {
+            "ip" => info[:inet_addr].to_s,
+            "netmask" => info[:netmask].to_s
+          }
+        elsif info[:inet_addr].ipv6?
+          interfaces[key]["ipv6_adresses"] << {
+            "ip" => info[:inet_addr].to_s,
+            "netmask" => info[:netmask].to_s
+          }
+        end
+      else
+        interfaces[key] = {
+          "name" => key,
+          "ip_addresses" => [info[:inet_addr].to_s],
+          "ipv4_adresses" => [],
+          "ipv6_adresses" => [],
+        }
+        if info[:inet_addr].ipv4?
+          interfaces[key]["ipv4_adresses"] << {
+            "ip" => info[:inet_addr].to_s,
+            "netmask" => info[:netmask].to_s
+          }
+        elsif info[:inet_addr].ipv6?
+          interfaces[key]["ipv6_adresses"] << {
+            "ip" => info[:inet_addr].to_s,
+            "netmask" => info[:netmask].to_s
+          }
+        end
+      end
+    end
+    interfaces
   end
 end

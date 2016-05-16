@@ -36,5 +36,20 @@ module Termy
         f.puts "57d8918b3961435bb09ed8bff341eb58"
       end
     end
+
+    def stub_network_interfaces
+      require "system/getifaddrs"
+      System.class_eval do
+        def self.get_all_ifaddrs
+          [
+            {
+              :interface => "my_network_interface",
+              :inet_addr => IPAddr.new,
+              :netmask => IPAddr.new
+            }
+          ]
+        end
+      end
+    end
   end
 end

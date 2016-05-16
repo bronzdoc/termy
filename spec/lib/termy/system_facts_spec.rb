@@ -50,4 +50,14 @@ RSpec.describe Termy::SystemFacts do |config|
       expect(@sys_facts.machine_id).to eq("57d8918b3961435bb09ed8bff341eb58")
     end
   end
+
+  describe "#network" do
+    it "should return network interfaces info" do
+      stub_network_interfaces
+      network = @sys_facts.network
+      expect(network.class).to eq(Hash)
+      expect(network.has_key?("my_network_interface")).to eq(true)
+    end
+  end
+
 end
