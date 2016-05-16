@@ -35,7 +35,7 @@ RSpec.describe Termy::SystemFacts do |config|
   end
 
   describe "#os_release", fakefs: true do
-    it "reads from /etc/os_release and returns the os info" do
+    it "reads from /etc/os-release and returns the os info" do
       stub_etc_os_release
       os_release = @sys_facts.os_release
       expect(os_release.class).to eq(Hash)

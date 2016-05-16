@@ -18,7 +18,7 @@ module Termy
 
     def stub_etc_os_release
       FileUtils.mkdir("/etc")
-      File.open("/etc/os_release", "w") do |f|
+      File.open("/etc/os-release", "w") do |f|
         f.puts 'PRETTY_NAME="Debian GNU/Linux 8 (jessie)"'
         f.puts 'NAME="Debian GNU/Linux"'
         f.puts 'VERSION_ID="8"'

@@ -48,14 +48,14 @@ class Termy::SystemFacts
   end
 
   def os_release
-    file = "/etc/os_release"
+    file = "/etc/os-release"
     os_release = {}
     return os_release unless File.file?(file)
 
     f = File.open(file)
     f.read.scan(/.*\n/).each do |line|
       key, val = line.split("=")
-      os_release[key.downcase] = val.strip
+      os_release[key.downcase] = val.strip.gsub("\"","")
     end
     f.close
     os_release
