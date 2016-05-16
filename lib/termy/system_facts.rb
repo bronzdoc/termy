@@ -1,5 +1,6 @@
 require "time"
 require "system/getifaddrs"
+require "sys/uname"
 
 class Termy::SystemFacts
   attr_reader :info
@@ -108,5 +109,9 @@ class Termy::SystemFacts
       end
     end
     interfaces
+  end
+
+  def uname
+    Sys::Uname.uname.to_h
   end
 end
