@@ -3,14 +3,18 @@ require "system/getifaddrs"
 require "sys/uname"
 
 class Termy::SystemFacts
-  attr_reader :kernel
+  attr_reader :kernel, :arch, :hostname, :domainname
 
   def initialize
-    @kernel =  {
+    @kernel = {
       "name" => uname[:sysname],
       "release" => uname[:release],
       "version" => uname[:version]
     }
+
+    @arch = uname[:machine]
+    @hostname = uname[:nodename]
+    @domainname = uname[:domainname]
   end
 
   def date
