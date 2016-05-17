@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require "termy"
+
+Termy.run!(ARGV)
+
