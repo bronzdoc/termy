@@ -40,7 +40,7 @@ RSpec.describe Termy::SystemFacts do |config|
       os_release = @sys_facts.os_release
       expect(os_release.class).to eq(Hash)
       expect(os_release.has_key?("name")).to eq(true)
-      expect(os_release["name"]).to eq("\"Debian GNU/Linux\"")
+      expect(os_release["name"]).to eq("Debian GNU/Linux")
     end
   end
 
