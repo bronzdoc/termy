@@ -59,11 +59,4 @@ RSpec.describe Termy::SystemFacts do |config|
       expect(network.has_key?("my_network_interface")).to eq(true)
     end
   end
-
-  describe "#uname" do
-    it "should return system info" do
-      expect(@sys_facts.uname.class).to eq(Hash)
-      expect(@sys_facts.uname.has_key?(:domainname)).to eq(true)
-    end
-  end
 end

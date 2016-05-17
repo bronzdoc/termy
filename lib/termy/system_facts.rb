@@ -3,15 +3,13 @@ require "system/getifaddrs"
 require "sys/uname"
 
 class Termy::SystemFacts
-  attr_reader :info
+  attr_reader :kernel
 
   def initialize
-    @info = {
-      date: date,
-      machine_id: machine_id,
-      boot_id: boot_id,
-      os_release: os_release,
-      file_systems: file_systems,
+    @kernel =  {
+      "name" => uname[:sysname],
+      "release" => uname[:release],
+      "version" => uname[:version]
     }
   end
 
@@ -72,6 +70,7 @@ class Termy::SystemFacts
   end
 
   def network
+    # TODO refactor this in the near future
     interfaces = {}
     System.get_all_ifaddrs.each do |info|
       key = info[:interface]
@@ -111,6 +110,7 @@ class Termy::SystemFacts
     interfaces
   end
 
+  private
   def uname
     Sys::Uname.uname.to_h
   end
