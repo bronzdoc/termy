@@ -22,6 +22,8 @@ $ termy system:kernel
 
 ### Print all facts
 ```
+$ termy
+
 {
   "system": {
     "architecture": "x86_64",
